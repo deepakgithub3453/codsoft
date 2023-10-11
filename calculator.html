@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+        }
+
+        .calculator {
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            overflow: hidden;
+        }
+
+        .display {
+            height: 60px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        button {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 20px 0;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease;
+        }
+
+        .operator {
+            background-color: #ff9900;
+            color: white;
+        }
+
+        .clear {
+            background-color: #ff3333;
+            color: white;
+        }
+
+        .equal {
+            background-color: #66cc00;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #eaeaea;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="operator" onclick="appendOperator('+')">+</button>
+            <button class="operator" onclick="appendOperator('-')">-</button>
+            <button class="operator" onclick="appendOperator('*')">*</button>
+            <button class="operator" onclick="appendOperator('/')">/</button>
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="appendNumber('0')">0</button>
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="equal" onclick="calculateResult()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentInput = '';
+        let operator = '';
+        let firstInput = '';
+
+        function appendNumber(number) {
+            currentInput += number;
+            updateDisplay();
+        }
+
+        function appendOperator(op) {
+            if (operator === '') {
+                firstInput = currentInput;
+                currentInput = '';
+                operator = op;
+            } else {
+                calculateResult();
+                operator = op;
+            }
+        }
+
+        function calculateResult() {
+            if (operator === '+') {
+                currentInput = String(parseFloat(firstInput) + parseFloat(currentInput));
+            } else if (operator === '-') {
+                currentInput = String(parseFloat(firstInput) - parseFloat(currentInput));
+            } else if (operator === '*') {
+                currentInput = String(parseFloat(firstInput) * parseFloat(currentInput));
+            } else if (operator === '/') {
+                currentInput = String(parseFloat(firstInput) / parseFloat(currentInput));
+            }
+            operator = '';
+            firstInput = '';
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            currentInput = '';
+            operator = '';
+            firstInput = '';
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            display.textContent = currentInput || '0';
+        }
+    </script>
+</body>
+
+</html>
